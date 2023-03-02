@@ -3,7 +3,7 @@ import requests
 import urllib3
 
 
-def fortigate(baseurl, token):
+def backup(baseurl, token, device_name):
     # Disable insecure request warnings
     urllib3.disable_warnings()
 
@@ -37,11 +37,12 @@ def fortigate(baseurl, token):
     # Read the response body
     response_data = response.content
 
-    # Set filename to current time
     current_time = time.localtime()
     time_now = time.strftime("%Y-%m-%d-%H-%M-%S", current_time)
-    filename = f"{time_now}_forti_config.txt"
+    filename = f"{time_now}_{device_name}_config.txt"
 
     # Write response to file
-    with open(filename, 'wb') as file:
+    with open('backup/fortigate/' + filename, 'wb') as file:
         file.write(response_data)
+
+
