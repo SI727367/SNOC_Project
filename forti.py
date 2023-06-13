@@ -3,7 +3,7 @@ import requests
 import urllib3
 
 
-def backup(url, token, device_name, FFW1, FFW2, port1, port2):
+def backup(url, token, device_name, fw1, fw2, port1, port2):
     try:
         # Disable insecure request warnings
         urllib3.disable_warnings()
@@ -15,7 +15,7 @@ def backup(url, token, device_name, FFW1, FFW2, port1, port2):
         session.verify = False
 
         # Define url for API
-        if device_name == (FFW1 or FFW2):
+        if device_name == (fw1 or fw2):
             baseurl = ''.join(['https://', url, ':', port2, '/api/v2/'])
         else:
             baseurl = ''.join(['https://', url, ':', port1, '/api/v2/'])
