@@ -1,4 +1,4 @@
-# Project to manage and mantain various networks devices
+# Project to manage and maintain various networks devices
 # External modules
 import os
 from dotenv import load_dotenv
@@ -13,16 +13,15 @@ load_dotenv()
 MY_ENV_VAR = os.getenv('MY_ENV_VAR')
 
 # Define variables from environment variables TEMPORAL
-furl = os.getenv('BASE_URL')
-ftoken = os.getenv('TOKEN')
-
-cip = os.getenv('CISCO_IP')
 cuser = os.getenv('USER_CISCO')
 cpass = os.getenv('PASS_CISCO')
-
-hip = os.getenv('ARUBA_IP')
 huser = os.getenv('USER_ARUBA')
 hpass = os.getenv('PASS_ARUBA')
+fw1 = os.getenv('FW1')
+fw2 = os.getenv('FW2')
+port1 = os.getenv('PORT1')
+port2 = os.getenv('PORT2')
+
 
 # Create folders for backups
 os.makedirs('backup', exist_ok=True)
@@ -32,9 +31,26 @@ os.makedirs('backup/hp', exist_ok=True)
 
 
 def main():
-    forti.backup(furl, ftoken, "fortigate")
-    cisco.backup(cip, cuser, cpass, "cisco")
-    hp.backup(hip, huser, hpass, "aruba")
+    # Open CSV file with brand devices, devicename and tokens, ips and tokens
+    with open('Calles.csv', 'r') as file:
+        # Switchcase to select the brand of the device
+        for line in file:
+            brand = line.split(';')[0]
+            device_name = line.split(';')[1].strip()
+            ip = line.split(';')[2]
+            token = line.split(';')[3]
+
+            print(f"Backing up {device_name}...")
+            if brand == 'CISCO':
+                cisco.backup(ip, cuser, cpass, device_name, token)
+            elif brand == 'FORTINET':
+                forti.backup(ip, token, device_name, fw1, fw2, port1, port2)
+            elif brand == 'HPE':
+                hp.backup(ip, huser, hpass, device_name)
+            else:
+                print("Error: Brand not supported")
+
+            print(f"Backup of {device_name} completed\n")
 
 
 # Run main function

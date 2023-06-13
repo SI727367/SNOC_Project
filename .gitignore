@@ -1,4 +1,7 @@
 ### Python template
+#File ignore
+Calles.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -162,4 +165,5 @@ cython_debug/
 
 # Folders to be excluded from the project
 backup/
+
 

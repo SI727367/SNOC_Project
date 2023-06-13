@@ -25,6 +25,6 @@ def backup(ip_address, username, password, device_name):
         ssh.close()
         file.close()
 
-    # If SSH connection fails, return an error message
-    except paramiko.ssh_exception.SSHException:
-        return "Error: SSH connection failed"
+    except Exception as e:
+        print(e)
+
