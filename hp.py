@@ -1,8 +1,15 @@
 import paramiko
 import time
+import os
+from dotenv import load_dotenv
+
+# ENV variables
+load_dotenv()
+username = os.getenv('USER_HP')
+password = os.getenv('PASS_HP')
 
 
-def backup(ip_address, username, password, device_name):
+def backup(ip_address, device_name):
     try:
         # Try to establish SSH connection
         ssh = paramiko.SSHClient()
@@ -27,4 +34,3 @@ def backup(ip_address, username, password, device_name):
 
     except Exception as e:
         print(e)
-

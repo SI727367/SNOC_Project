@@ -1,10 +1,20 @@
 import time
 import requests
 import urllib3
+import os
+from dotenv import load_dotenv
+
+# ENV variables
+load_dotenv()
+fw1 = os.getenv('FW1')
+fw2 = os.getenv('FW2')
+port1 = os.getenv('PORT1')
+port2 = os.getenv('PORT2')
 
 
-def backup(url, token, device_name, fw1, fw2, port1, port2):
+def backup(url, token, device_name):
     try:
+
         # Disable insecure request warnings
         urllib3.disable_warnings()
 
@@ -15,7 +25,7 @@ def backup(url, token, device_name, fw1, fw2, port1, port2):
         session.verify = False
 
         # Define url for API
-        if device_name == (fw1 or fw2):
+        if device_name == fw2 or device_name == fw1:
             baseurl = ''.join(['https://', url, ':', port2, '/api/v2/'])
         else:
             baseurl = ''.join(['https://', url, ':', port1, '/api/v2/'])
@@ -29,7 +39,6 @@ def backup(url, token, device_name, fw1, fw2, port1, port2):
 
         # Add scope to URL query parameter
         baseurl = ''.join([baseurl, '&scope=global'])
-
         # Define the request parameters
         request_body = {
             "scope": "global"

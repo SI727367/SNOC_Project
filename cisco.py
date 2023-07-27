@@ -1,9 +1,16 @@
 import paramiko
 import telnetlib
 import time
+import os
+from dotenv import load_dotenv
+
+# ENV variables
+load_dotenv()
+username = os.getenv('USER_CISCO')
+password = os.getenv('PASS_CISCO')
 
 
-def backup(ip_address, username, password, device_name, token):
+def backup(ip_address, device_name, token):
     try:
         if token == 'telnet':
             tn = telnetlib.Telnet(ip_address)
